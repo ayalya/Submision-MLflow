@@ -1,0 +1,56 @@
+name: CI
+ 
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+env:
+  CSV_URL: "LoanEligibilityDataset_preprocessing/train_data.csv"
+  TARGET_VAR: "Loan_Status"
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+ 
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE
+      - uses: actions/checkout@v3
+ 
+      # Setup Python 3.12.7
+      - name: Set up Python 3.12.7
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12.7"
+      
+      # Check Env Variables
+      - name: Check Env
+        run: |
+          echo $CSV_URL
+ 
+      # Install mlflow
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install mlflow
+      
+      # Run as a mlflow project
+      - name: Run mlflow project
+        run: |
+          mlflow run . --env-manager=local
+ 
+      # Save models to GitHub Repository
+      - name: Get latest MLflow run_id
+        run: |
+          git config --global user.name "${{ secrets.USERNAME }}"
+          git config --global user.email "${{ secrets.EMAIL }}"
+          git add mlruns//
+          git commit -m "Run CI and save mlflow output"
+          git push https://${{ secrets.GH_TOKEN }}@github.com/ayalya/Submission-MLflow.git main
+        
