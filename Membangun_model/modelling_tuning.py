@@ -11,7 +11,7 @@ import sys
 
 mlflow.set_registry_uri("http://127.0.0.1:500/")
 
-mlflow.set_experiment("Submission Membangun Sistem Machine Learning - Alya FauziaSubmission Membangun Sistem Machine Learning - Alya Fauzia")
+mlflow.set_experiment("Submission Membangun Sistem Machine Learning - Alya FauziaSubmission")
 
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")

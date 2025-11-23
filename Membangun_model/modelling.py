@@ -23,7 +23,6 @@ if __name__ == "__main__":
     file_path = sys.argv[3] if len(sys.argv) > 3 else os.path.join(default_dir, "train_data.csv")
     data = pd.read_csv(file_path)
 
-
     # Split data
     X_train, X_test, y_train, y_test = train_test_split(
         data.drop('Loan_Status', axis=1),
@@ -33,13 +32,11 @@ if __name__ == "__main__":
     )
 
     input_example = X_train[0:5]
-    n_neighbors = 5
-    metric = 'minkowski'
-    leaf_size = 30
+    n_neighbors = 50
+    leaf_size = 100
 
     with mlflow.start_run():
         model = KNeighborsClassifier(n_neighbors=n_neighbors,
-                                     metric=metric,
                                      leaf_size=leaf_size)
         model.fit(X_train, y_train)
 
