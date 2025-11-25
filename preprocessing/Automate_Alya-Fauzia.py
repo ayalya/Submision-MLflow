@@ -105,6 +105,10 @@ if __name__ == "__main__":
     output_dir = 'dataset_preprocessing'
     drop_col = ['Customer_ID', 'Education', 'Property_Area', 'Gender']
 
+    y_map = {'Y': 1, 'N':0}
+
+    data[target] = data[target].map(y_map)
+
     automate_preprocessing(
         path=data, 
         target_col=target,
